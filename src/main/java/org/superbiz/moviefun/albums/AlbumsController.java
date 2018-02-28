@@ -60,7 +60,7 @@ public class AlbumsController {
             blobStore.put(coverBlob);
         }
 
-        return format("/redirect:/albums/%d",albumId);
+        return format("redirect:/albums/%d",albumId);
     }
 
     @GetMapping("/{albumId}/cover")
