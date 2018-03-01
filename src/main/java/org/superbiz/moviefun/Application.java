@@ -24,19 +24,26 @@ public class Application {
         return new ServletRegistrationBean(actionServlet, "/moviefun/*");
     }
 
-    @Bean
-    ServiceCredentials serviceCredentials(@Value("${vcap.services}") String vcapServices) {
-        return new ServiceCredentials(vcapServices);
-    }
+//    @Bean
+//    ServiceCredentials serviceCredentials(@Value("${vcap.services}") String vcapServices) {
+//        return new ServiceCredentials(vcapServices);
+//    }
+
+
+    @Value("${s3.endpointUrl}") String s3EndpointUrl;
+    @Value("${s3.accessKey}") String s3AccessKey;
+    @Value("${s3.secretKey}") String s3SecretKey;
+    @Value("${s3.bucketName}") String s3BucketName;
+
 
     @Bean
     public BlobStore blobStore(
-        ServiceCredentials serviceCredentials,
-        @Value("${s3.endpointUrl:#{null}}") String s3EndpointUrl
+            //ServiceCredentials serviceCredentials,
+            @Value("${s3.endpointUrl:#{null}}") String s3EndpointUrl
     ) {
-        String s3AccessKey = serviceCredentials.getCredential("moviefun-s3", "aws-s3", "access_key_id");
-        String s3SecretKey = serviceCredentials.getCredential("moviefun-s3", "aws-s3", "secret_access_key");
-        String s3BucketName = serviceCredentials.getCredential("moviefun-s3", "aws-s3", "bucket");
+//        String s3AccessKey = serviceCredentials.getCredential("moviefun-s3", "aws-s3", "access_key_id");
+//        String s3SecretKey = serviceCredentials.getCredential("moviefun-s3", "aws-s3", "secret_access_key");
+//        String s3BucketName = serviceCredentials.getCredential("moviefun-s3", "aws-s3", "bucket");
 
         AWSCredentials credentials = new BasicAWSCredentials(s3AccessKey, s3SecretKey);
         AmazonS3Client s3Client = new AmazonS3Client(credentials);
